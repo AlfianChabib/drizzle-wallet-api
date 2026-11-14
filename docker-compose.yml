@@ -1,0 +1,109 @@
+services:
+  # ==========================================
+  # 1. PRIMARY DATABASE (LEADER / MASTER)
+  # Menerima Write (INSERT, UPDATE, DELETE) & Read
+  # ==========================================
+  wallet_db:
+    image: postgres:16-alpine
+    container_name: wallet_db
+    environment:
+      POSTGRES_USER: ${DB_USER:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres}
+      POSTGRES_DB: ${DB_NAME:-wallet_db}
+      REPL_USER: ${DB_REPL_USER:-repl_user}
+      REPL_PASSWORD: ${DB_REPL_PASSWORD:-repl_password}
+    ports:
+      - "${DB_PORT:-5432}:5432"
+    volumes:
+      - primary_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-postgres} -d ${DB_NAME:-wallet_db}"]
+      interval: 3s
+      timeout: 3s
+      retries: 10
+    entrypoint:
+      - sh
+      - -c
+      - |
+        mkdir -p /docker-entrypoint-initdb.d
+        cat << 'EOF' > /docker-entrypoint-initdb.d/init-replication.sh
+        #!/bin/sh
+        set -e
+        psql -v ON_ERROR_STOP=1 --username "$$POSTGRES_USER" --dbname "$$POSTGRES_DB" <<-EOSQL
+            CREATE ROLE $$REPL_USER WITH REPLICATION LOGIN PASSWORD '$$REPL_PASSWORD';
+        EOSQL
+        echo "host replication $$REPL_USER 0.0.0.0/0 md5" >> "$$PGDATA/pg_hba.conf"
+        EOF
+        chmod +x /docker-entrypoint-initdb.d/init-replication.sh
+        exec docker-entrypoint.sh postgres -c wal_level=replica -c max_wal_senders=10 -c max_replication_slots=10 -c hot_standby=on
+
+  # ==========================================
+  # 2. READ REPLICA 1 (FOLLOWER / SLAVE)
+  # Hanya menerima Read (SELECT)
+  # ==========================================
+  wallet_db_replica_1:
+    image: postgres:16-alpine
+    container_name: wallet_db_replica_1
+    ports:
+      - "${DB_REPLICA1_PORT:-5433}:5432"
+    environment:
+      PGPASSWORD: ${DB_REPL_PASSWORD:-repl_password}
+      POSTGRES_USER: ${DB_USER:-postgres}
+      REPL_USER: ${DB_REPL_USER:-repl_user}
+    depends_on:
+      wallet_db:
+        condition: service_healthy
+    volumes:
+      - replica1_data:/var/lib/postgresql/data
+    entrypoint:
+      - sh
+      - -c
+      - |
+        until pg_isready -h wallet_db -p 5432 -U $$POSTGRES_USER; do
+          echo 'Menunggu Primary siap...';
+          sleep 2;
+        done;
+        if [ ! -s /var/lib/postgresql/data/PG_VERSION ]; then
+          echo 'Mengkloning data awal dari Primary (pg_basebackup)...';
+          rm -rf /var/lib/postgresql/data/*;
+          pg_basebackup -h wallet_db -p 5432 -U $$REPL_USER -D /var/lib/postgresql/data -Fp -Xs -R;
+        fi;
+        exec docker-entrypoint.sh postgres
+
+  # ==========================================
+  # 3. READ REPLICA 2 (FOLLOWER / SLAVE)
+  # Hanya menerima Read (SELECT)
+  # ==========================================
+  wallet_db_replica_2:
+    image: postgres:16-alpine
+    container_name: wallet_db_replica_2
+    ports:
+      - "${DB_REPLICA2_PORT:-5434}:5432"
+    environment:
+      PGPASSWORD: ${DB_REPL_PASSWORD:-repl_password}
+      POSTGRES_USER: ${DB_USER:-postgres}
+      REPL_USER: ${DB_REPL_USER:-repl_user}
+    depends_on:
+      wallet_db:
+        condition: service_healthy
+    volumes:
+      - replica2_data:/var/lib/postgresql/data
+    entrypoint:
+      - sh
+      - -c
+      - |
+        until pg_isready -h wallet_db -p 5432 -U $$POSTGRES_USER; do
+          echo 'Menunggu Primary siap...';
+          sleep 2;
+        done;
+        if [ ! -s /var/lib/postgresql/data/PG_VERSION ]; then
+          echo 'Mengkloning data awal dari Primary (pg_basebackup)...';
+          rm -rf /var/lib/postgresql/data/*;
+          pg_basebackup -h wallet_db -p 5432 -U $$REPL_USER -D /var/lib/postgresql/data -Fp -Xs -R;
+        fi;
+        exec docker-entrypoint.sh postgres
+
+volumes:
+  primary_data:
+  replica1_data:
+  replica2_data:

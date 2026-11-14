@@ -1,0 +1,1614 @@
+{
+  "type": "base",
+  "version": "9",
+  "dialect": "postgres",
+  "id": "8f50c2cb-21d4-4cc2-b6c9-972ca71e33d1",
+  "prevIds": [
+    "00000000-0000-0000-0000-000000000000"
+  ],
+  "footprints": [
+    {
+      "statementType": "create_table",
+      "statementTarget": [
+        "table",
+        "public",
+        "users"
+      ],
+      "writes": [
+        "s|tbl|public.users",
+        "n|tbl|public.users",
+        "e|tbl|public.users",
+        "n|rel|public.users",
+        "n|type|public.users",
+        "n|rel|public.users_pkey",
+        "n|rel|public.users_email_key"
+      ],
+      "reads": [
+        "n|sch|public"
+      ]
+    },
+    {
+      "statementType": "create_table",
+      "statementTarget": [
+        "table",
+        "public",
+        "wallets"
+      ],
+      "writes": [
+        "s|tbl|public.wallets",
+        "n|tbl|public.wallets",
+        "e|tbl|public.wallets",
+        "n|rel|public.wallets",
+        "n|type|public.wallets",
+        "n|rel|public.wallets_pkey",
+        "n|rel|public.wallets_ledger_account_id_key"
+      ],
+      "reads": [
+        "n|sch|public"
+      ]
+    },
+    {
+      "statementType": "create_table",
+      "statementTarget": [
+        "table",
+        "public",
+        "idempotency_keys"
+      ],
+      "writes": [
+        "s|tbl|public.idempotency_keys",
+        "n|tbl|public.idempotency_keys",
+        "e|tbl|public.idempotency_keys",
+        "n|rel|public.idempotency_keys",
+        "n|type|public.idempotency_keys",
+        "n|rel|public.idempotency_keys_pkey"
+      ],
+      "reads": [
+        "n|sch|public"
+      ]
+    },
+    {
+      "statementType": "create_table",
+      "statementTarget": [
+        "table",
+        "public",
+        "journal_entries"
+      ],
+      "writes": [
+        "s|tbl|public.journal_entries",
+        "n|tbl|public.journal_entries",
+        "e|tbl|public.journal_entries",
+        "n|rel|public.journal_entries",
+        "n|type|public.journal_entries",
+        "n|rel|public.journal_entries_pkey",
+        "n|rel|public.journal_entries_idempotency_key_key"
+      ],
+      "reads": [
+        "n|sch|public"
+      ]
+    },
+    {
+      "statementType": "create_table",
+      "statementTarget": [
+        "table",
+        "public",
+        "ledger_accounts"
+      ],
+      "writes": [
+        "s|tbl|public.ledger_accounts",
+        "n|tbl|public.ledger_accounts",
+        "e|tbl|public.ledger_accounts",
+        "n|rel|public.ledger_accounts",
+        "n|type|public.ledger_accounts",
+        "n|rel|public.ledger_accounts_pkey",
+        "n|rel|public.ledger_accounts_code_key"
+      ],
+      "reads": [
+        "n|sch|public"
+      ]
+    },
+    {
+      "statementType": "create_table",
+      "statementTarget": [
+        "table",
+        "public",
+        "ledger_postings"
+      ],
+      "writes": [
+        "s|tbl|public.ledger_postings",
+        "n|tbl|public.ledger_postings",
+        "e|tbl|public.ledger_postings",
+        "n|rel|public.ledger_postings",
+        "n|type|public.ledger_postings",
+        "n|rel|public.ledger_postings_pkey"
+      ],
+      "reads": [
+        "n|sch|public"
+      ]
+    },
+    {
+      "statementType": "create_index",
+      "statementTarget": [
+        "index",
+        "public",
+        "users",
+        "users_role_idx"
+      ],
+      "writes": [
+        "s|idx|public.users_role_idx",
+        "n|idx|public.users_role_idx",
+        "e|idx|public.users_role_idx",
+        "n|rel|public.users_role_idx"
+      ],
+      "reads": [
+        "n|tbl|public.users",
+        "n|sch|public",
+        "n|col|public.users.role"
+      ]
+    },
+    {
+      "statementType": "create_index",
+      "statementTarget": [
+        "index",
+        "public",
+        "users",
+        "users_created_at_idx"
+      ],
+      "writes": [
+        "s|idx|public.users_created_at_idx",
+        "n|idx|public.users_created_at_idx",
+        "e|idx|public.users_created_at_idx",
+        "n|rel|public.users_created_at_idx"
+      ],
+      "reads": [
+        "n|tbl|public.users",
+        "n|sch|public",
+        "n|col|public.users.created_at"
+      ]
+    },
+    {
+      "statementType": "create_index",
+      "statementTarget": [
+        "index",
+        "public",
+        "wallets",
+        "wallets_user_id_idx"
+      ],
+      "writes": [
+        "s|idx|public.wallets_user_id_idx",
+        "n|idx|public.wallets_user_id_idx",
+        "e|idx|public.wallets_user_id_idx",
+        "n|rel|public.wallets_user_id_idx"
+      ],
+      "reads": [
+        "n|tbl|public.wallets",
+        "n|sch|public",
+        "n|col|public.wallets.user_id"
+      ]
+    },
+    {
+      "statementType": "create_index",
+      "statementTarget": [
+        "index",
+        "public",
+        "wallets",
+        "wallets_status_idx"
+      ],
+      "writes": [
+        "s|idx|public.wallets_status_idx",
+        "n|idx|public.wallets_status_idx",
+        "e|idx|public.wallets_status_idx",
+        "n|rel|public.wallets_status_idx"
+      ],
+      "reads": [
+        "n|tbl|public.wallets",
+        "n|sch|public",
+        "n|col|public.wallets.status"
+      ]
+    },
+    {
+      "statementType": "create_index",
+      "statementTarget": [
+        "index",
+        "public",
+        "wallets",
+        "wallets_user_status_idx"
+      ],
+      "writes": [
+        "s|idx|public.wallets_user_status_idx",
+        "n|idx|public.wallets_user_status_idx",
+        "e|idx|public.wallets_user_status_idx",
+        "n|rel|public.wallets_user_status_idx"
+      ],
+      "reads": [
+        "n|tbl|public.wallets",
+        "n|sch|public",
+        "n|col|public.wallets.user_id",
+        "n|col|public.wallets.status"
+      ]
+    },
+    {
+      "statementType": "create_index",
+      "statementTarget": [
+        "index",
+        "public",
+        "idempotency_keys",
+        "idempotency_keys_user_id_idx"
+      ],
+      "writes": [
+        "s|idx|public.idempotency_keys_user_id_idx",
+        "n|idx|public.idempotency_keys_user_id_idx",
+        "e|idx|public.idempotency_keys_user_id_idx",
+        "n|rel|public.idempotency_keys_user_id_idx"
+      ],
+      "reads": [
+        "n|tbl|public.idempotency_keys",
+        "n|sch|public",
+        "n|col|public.idempotency_keys.user_id"
+      ]
+    },
+    {
+      "statementType": "create_index",
+      "statementTarget": [
+        "index",
+        "public",
+        "idempotency_keys",
+        "idempotency_keys_expires_at_idx"
+      ],
+      "writes": [
+        "s|idx|public.idempotency_keys_expires_at_idx",
+        "n|idx|public.idempotency_keys_expires_at_idx",
+        "e|idx|public.idempotency_keys_expires_at_idx",
+        "n|rel|public.idempotency_keys_expires_at_idx"
+      ],
+      "reads": [
+        "n|tbl|public.idempotency_keys",
+        "n|sch|public",
+        "n|col|public.idempotency_keys.expires_at"
+      ]
+    },
+    {
+      "statementType": "create_index",
+      "statementTarget": [
+        "index",
+        "public",
+        "idempotency_keys",
+        "idempotency_keys_status_idx"
+      ],
+      "writes": [
+        "s|idx|public.idempotency_keys_status_idx",
+        "n|idx|public.idempotency_keys_status_idx",
+        "e|idx|public.idempotency_keys_status_idx",
+        "n|rel|public.idempotency_keys_status_idx"
+      ],
+      "reads": [
+        "n|tbl|public.idempotency_keys",
+        "n|sch|public",
+        "n|col|public.idempotency_keys.status"
+      ]
+    },
+    {
+      "statementType": "create_index",
+      "statementTarget": [
+        "index",
+        "public",
+        "journal_entries",
+        "journal_entries_posted_at_idx"
+      ],
+      "writes": [
+        "s|idx|public.journal_entries_posted_at_idx",
+        "n|idx|public.journal_entries_posted_at_idx",
+        "e|idx|public.journal_entries_posted_at_idx",
+        "n|rel|public.journal_entries_posted_at_idx"
+      ],
+      "reads": [
+        "n|tbl|public.journal_entries",
+        "n|sch|public",
+        "n|col|public.journal_entries.posted_at"
+      ]
+    },
+    {
+      "statementType": "create_index",
+      "statementTarget": [
+        "index",
+        "public",
+        "journal_entries",
+        "journal_entries_tx_type_status_idx"
+      ],
+      "writes": [
+        "s|idx|public.journal_entries_tx_type_status_idx",
+        "n|idx|public.journal_entries_tx_type_status_idx",
+        "e|idx|public.journal_entries_tx_type_status_idx",
+        "n|rel|public.journal_entries_tx_type_status_idx"
+      ],
+      "reads": [
+        "n|tbl|public.journal_entries",
+        "n|sch|public",
+        "n|col|public.journal_entries.transaction_type",
+        "n|col|public.journal_entries.status"
+      ]
+    },
+    {
+      "statementType": "create_index",
+      "statementTarget": [
+        "index",
+        "public",
+        "ledger_accounts",
+        "ledger_accounts_type_idx"
+      ],
+      "writes": [
+        "s|idx|public.ledger_accounts_type_idx",
+        "n|idx|public.ledger_accounts_type_idx",
+        "e|idx|public.ledger_accounts_type_idx",
+        "n|rel|public.ledger_accounts_type_idx"
+      ],
+      "reads": [
+        "n|tbl|public.ledger_accounts",
+        "n|sch|public",
+        "n|col|public.ledger_accounts.type"
+      ]
+    },
+    {
+      "statementType": "create_index",
+      "statementTarget": [
+        "index",
+        "public",
+        "ledger_postings",
+        "ledger_postings_journal_entry_id_idx"
+      ],
+      "writes": [
+        "s|idx|public.ledger_postings_journal_entry_id_idx",
+        "n|idx|public.ledger_postings_journal_entry_id_idx",
+        "e|idx|public.ledger_postings_journal_entry_id_idx",
+        "n|rel|public.ledger_postings_journal_entry_id_idx"
+      ],
+      "reads": [
+        "n|tbl|public.ledger_postings",
+        "n|sch|public",
+        "n|col|public.ledger_postings.journal_entry_id"
+      ]
+    },
+    {
+      "statementType": "create_index",
+      "statementTarget": [
+        "index",
+        "public",
+        "ledger_postings",
+        "ledger_postings_account_created_at_idx"
+      ],
+      "writes": [
+        "s|idx|public.ledger_postings_account_created_at_idx",
+        "n|idx|public.ledger_postings_account_created_at_idx",
+        "e|idx|public.ledger_postings_account_created_at_idx",
+        "n|rel|public.ledger_postings_account_created_at_idx"
+      ],
+      "reads": [
+        "n|tbl|public.ledger_postings",
+        "n|sch|public",
+        "n|col|public.ledger_postings.account_id",
+        "n|col|public.ledger_postings.created_at"
+      ]
+    },
+    {
+      "statementType": "create_index",
+      "statementTarget": [
+        "index",
+        "public",
+        "ledger_postings",
+        "ledger_postings_direction_idx"
+      ],
+      "writes": [
+        "s|idx|public.ledger_postings_direction_idx",
+        "n|idx|public.ledger_postings_direction_idx",
+        "e|idx|public.ledger_postings_direction_idx",
+        "n|rel|public.ledger_postings_direction_idx"
+      ],
+      "reads": [
+        "n|tbl|public.ledger_postings",
+        "n|sch|public",
+        "n|col|public.ledger_postings.direction"
+      ]
+    },
+    {
+      "statementType": "create_fk",
+      "statementTarget": [
+        "table",
+        "public",
+        "wallets"
+      ],
+      "writes": [
+        "s|fk|public.wallets.wallets_user_id_users_id_fkey",
+        "n|fk|public.wallets.wallets_user_id_users_id_fkey",
+        "e|fk|public.wallets.wallets_user_id_users_id_fkey",
+        "n|con|public.wallets.wallets_user_id_users_id_fkey"
+      ],
+      "reads": [
+        "n|tbl|public.wallets",
+        "n|sch|public",
+        "n|tbl|public.users",
+        "n|sch|public",
+        "n|col|public.wallets.user_id",
+        "n|col|public.users.id",
+        "e|uniqueness|public.users.id"
+      ]
+    },
+    {
+      "statementType": "create_fk",
+      "statementTarget": [
+        "table",
+        "public",
+        "idempotency_keys"
+      ],
+      "writes": [
+        "s|fk|public.idempotency_keys.idempotency_keys_user_id_users_id_fkey",
+        "n|fk|public.idempotency_keys.idempotency_keys_user_id_users_id_fkey",
+        "e|fk|public.idempotency_keys.idempotency_keys_user_id_users_id_fkey",
+        "n|con|public.idempotency_keys.idempotency_keys_user_id_users_id_fkey"
+      ],
+      "reads": [
+        "n|tbl|public.idempotency_keys",
+        "n|sch|public",
+        "n|tbl|public.users",
+        "n|sch|public",
+        "n|col|public.idempotency_keys.user_id",
+        "n|col|public.users.id",
+        "e|uniqueness|public.users.id"
+      ]
+    },
+    {
+      "statementType": "create_fk",
+      "statementTarget": [
+        "table",
+        "public",
+        "ledger_postings"
+      ],
+      "writes": [
+        "s|fk|public.ledger_postings.ledger_postings_journal_entry_id_journal_entries_id_fkey",
+        "n|fk|public.ledger_postings.ledger_postings_journal_entry_id_journal_entries_id_fkey",
+        "e|fk|public.ledger_postings.ledger_postings_journal_entry_id_journal_entries_id_fkey",
+        "n|con|public.ledger_postings.ledger_postings_journal_entry_id_journal_entries_id_fkey"
+      ],
+      "reads": [
+        "n|tbl|public.ledger_postings",
+        "n|sch|public",
+        "n|tbl|public.journal_entries",
+        "n|sch|public",
+        "n|col|public.ledger_postings.journal_entry_id",
+        "n|col|public.journal_entries.id",
+        "e|uniqueness|public.journal_entries.id"
+      ]
+    },
+    {
+      "statementType": "create_fk",
+      "statementTarget": [
+        "table",
+        "public",
+        "ledger_postings"
+      ],
+      "writes": [
+        "s|fk|public.ledger_postings.ledger_postings_account_id_ledger_accounts_id_fkey",
+        "n|fk|public.ledger_postings.ledger_postings_account_id_ledger_accounts_id_fkey",
+        "e|fk|public.ledger_postings.ledger_postings_account_id_ledger_accounts_id_fkey",
+        "n|con|public.ledger_postings.ledger_postings_account_id_ledger_accounts_id_fkey"
+      ],
+      "reads": [
+        "n|tbl|public.ledger_postings",
+        "n|sch|public",
+        "n|tbl|public.ledger_accounts",
+        "n|sch|public",
+        "n|col|public.ledger_postings.account_id",
+        "n|col|public.ledger_accounts.id",
+        "e|uniqueness|public.ledger_accounts.id"
+      ]
+    }
+  ],
+  "ddl": [
+    {
+      "schema": "public",
+      "name": "users",
+      "isRlsEnabled": false,
+      "entityType": "tables"
+    },
+    {
+      "schema": "public",
+      "name": "wallets",
+      "isRlsEnabled": false,
+      "entityType": "tables"
+    },
+    {
+      "schema": "public",
+      "name": "idempotency_keys",
+      "isRlsEnabled": false,
+      "entityType": "tables"
+    },
+    {
+      "schema": "public",
+      "name": "journal_entries",
+      "isRlsEnabled": false,
+      "entityType": "tables"
+    },
+    {
+      "schema": "public",
+      "name": "ledger_accounts",
+      "isRlsEnabled": false,
+      "entityType": "tables"
+    },
+    {
+      "schema": "public",
+      "name": "ledger_postings",
+      "isRlsEnabled": false,
+      "entityType": "tables"
+    },
+    {
+      "schema": "public",
+      "table": "users",
+      "name": "id",
+      "type": "uuid",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": "gen_random_uuid()",
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "users",
+      "name": "email",
+      "type": "varchar(255)",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "users",
+      "name": "password_hash",
+      "type": "text",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "users",
+      "name": "pin_hash",
+      "type": "text",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "users",
+      "name": "failed_pin_attempts",
+      "type": "integer",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": "0",
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "users",
+      "name": "full_name",
+      "type": "varchar(255)",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "users",
+      "name": "role",
+      "type": "varchar(20)",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": "'user'",
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "users",
+      "name": "created_at",
+      "type": "timestamp with time zone",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": "now()",
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "users",
+      "name": "updated_at",
+      "type": "timestamp with time zone",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": "now()",
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "wallets",
+      "name": "id",
+      "type": "uuid",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": "gen_random_uuid()",
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "wallets",
+      "name": "user_id",
+      "type": "uuid",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "wallets",
+      "name": "ledger_account_id",
+      "type": "uuid",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "wallets",
+      "name": "currency",
+      "type": "varchar(10)",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": "'IDR'",
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "wallets",
+      "name": "cached_balance",
+      "type": "bigint",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": "0",
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "wallets",
+      "name": "daily_transfer_limit",
+      "type": "bigint",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": "25000000",
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "wallets",
+      "name": "max_per_transfer_limit",
+      "type": "bigint",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": "10000000",
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "wallets",
+      "name": "status",
+      "type": "varchar(20)",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": "'active'",
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "wallets",
+      "name": "created_at",
+      "type": "timestamp with time zone",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": "now()",
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "wallets",
+      "name": "updated_at",
+      "type": "timestamp with time zone",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": "now()",
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "idempotency_keys",
+      "name": "key",
+      "type": "varchar(255)",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "idempotency_keys",
+      "name": "user_id",
+      "type": "uuid",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "idempotency_keys",
+      "name": "endpoint",
+      "type": "varchar(255)",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "idempotency_keys",
+      "name": "request_hash",
+      "type": "varchar(64)",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "idempotency_keys",
+      "name": "status",
+      "type": "varchar(20)",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "idempotency_keys",
+      "name": "status_code",
+      "type": "integer",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "idempotency_keys",
+      "name": "response_body",
+      "type": "jsonb",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "idempotency_keys",
+      "name": "created_at",
+      "type": "timestamp with time zone",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": "now()",
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "idempotency_keys",
+      "name": "expires_at",
+      "type": "timestamp with time zone",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "journal_entries",
+      "name": "id",
+      "type": "uuid",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": "gen_random_uuid()",
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "journal_entries",
+      "name": "idempotency_key",
+      "type": "varchar(255)",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "journal_entries",
+      "name": "transaction_type",
+      "type": "varchar(50)",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "journal_entries",
+      "name": "status",
+      "type": "varchar(20)",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": "'posted'",
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "journal_entries",
+      "name": "description",
+      "type": "text",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "journal_entries",
+      "name": "posted_at",
+      "type": "timestamp with time zone",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": "now()",
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "ledger_accounts",
+      "name": "id",
+      "type": "uuid",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": "gen_random_uuid()",
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "ledger_accounts",
+      "name": "code",
+      "type": "varchar(100)",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "ledger_accounts",
+      "name": "type",
+      "type": "varchar(20)",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "ledger_accounts",
+      "name": "name",
+      "type": "varchar(255)",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "ledger_accounts",
+      "name": "created_at",
+      "type": "timestamp with time zone",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": "now()",
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "ledger_postings",
+      "name": "id",
+      "type": "uuid",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": "gen_random_uuid()",
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "ledger_postings",
+      "name": "journal_entry_id",
+      "type": "uuid",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "ledger_postings",
+      "name": "account_id",
+      "type": "uuid",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "ledger_postings",
+      "name": "direction",
+      "type": "varchar(10)",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "ledger_postings",
+      "name": "amount",
+      "type": "bigint",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "ledger_postings",
+      "name": "created_at",
+      "type": "timestamp with time zone",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": "now()",
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "users",
+      "name": "users_role_idx",
+      "nameExplicit": true,
+      "columns": [
+        {
+          "value": "role",
+          "isExpression": false,
+          "asc": true,
+          "nullsFirst": false,
+          "opclass": null
+        }
+      ],
+      "isUnique": false,
+      "where": null,
+      "with": "",
+      "method": "btree",
+      "concurrently": false,
+      "entityType": "indexes"
+    },
+    {
+      "schema": "public",
+      "table": "users",
+      "name": "users_created_at_idx",
+      "nameExplicit": true,
+      "columns": [
+        {
+          "value": "created_at",
+          "isExpression": false,
+          "asc": true,
+          "nullsFirst": false,
+          "opclass": null
+        }
+      ],
+      "isUnique": false,
+      "where": null,
+      "with": "",
+      "method": "btree",
+      "concurrently": false,
+      "entityType": "indexes"
+    },
+    {
+      "schema": "public",
+      "table": "wallets",
+      "name": "wallets_user_id_idx",
+      "nameExplicit": true,
+      "columns": [
+        {
+          "value": "user_id",
+          "isExpression": false,
+          "asc": true,
+          "nullsFirst": false,
+          "opclass": null
+        }
+      ],
+      "isUnique": false,
+      "where": null,
+      "with": "",
+      "method": "btree",
+      "concurrently": false,
+      "entityType": "indexes"
+    },
+    {
+      "schema": "public",
+      "table": "wallets",
+      "name": "wallets_status_idx",
+      "nameExplicit": true,
+      "columns": [
+        {
+          "value": "status",
+          "isExpression": false,
+          "asc": true,
+          "nullsFirst": false,
+          "opclass": null
+        }
+      ],
+      "isUnique": false,
+      "where": null,
+      "with": "",
+      "method": "btree",
+      "concurrently": false,
+      "entityType": "indexes"
+    },
+    {
+      "schema": "public",
+      "table": "wallets",
+      "name": "wallets_user_status_idx",
+      "nameExplicit": true,
+      "columns": [
+        {
+          "value": "user_id",
+          "isExpression": false,
+          "asc": true,
+          "nullsFirst": false,
+          "opclass": null
+        },
+        {
+          "value": "status",
+          "isExpression": false,
+          "asc": true,
+          "nullsFirst": false,
+          "opclass": null
+        }
+      ],
+      "isUnique": false,
+      "where": null,
+      "with": "",
+      "method": "btree",
+      "concurrently": false,
+      "entityType": "indexes"
+    },
+    {
+      "schema": "public",
+      "table": "idempotency_keys",
+      "name": "idempotency_keys_user_id_idx",
+      "nameExplicit": true,
+      "columns": [
+        {
+          "value": "user_id",
+          "isExpression": false,
+          "asc": true,
+          "nullsFirst": false,
+          "opclass": null
+        }
+      ],
+      "isUnique": false,
+      "where": null,
+      "with": "",
+      "method": "btree",
+      "concurrently": false,
+      "entityType": "indexes"
+    },
+    {
+      "schema": "public",
+      "table": "idempotency_keys",
+      "name": "idempotency_keys_expires_at_idx",
+      "nameExplicit": true,
+      "columns": [
+        {
+          "value": "expires_at",
+          "isExpression": false,
+          "asc": true,
+          "nullsFirst": false,
+          "opclass": null
+        }
+      ],
+      "isUnique": false,
+      "where": null,
+      "with": "",
+      "method": "btree",
+      "concurrently": false,
+      "entityType": "indexes"
+    },
+    {
+      "schema": "public",
+      "table": "idempotency_keys",
+      "name": "idempotency_keys_status_idx",
+      "nameExplicit": true,
+      "columns": [
+        {
+          "value": "status",
+          "isExpression": false,
+          "asc": true,
+          "nullsFirst": false,
+          "opclass": null
+        }
+      ],
+      "isUnique": false,
+      "where": null,
+      "with": "",
+      "method": "btree",
+      "concurrently": false,
+      "entityType": "indexes"
+    },
+    {
+      "schema": "public",
+      "table": "journal_entries",
+      "name": "journal_entries_posted_at_idx",
+      "nameExplicit": true,
+      "columns": [
+        {
+          "value": "posted_at",
+          "isExpression": false,
+          "asc": true,
+          "nullsFirst": false,
+          "opclass": null
+        }
+      ],
+      "isUnique": false,
+      "where": null,
+      "with": "",
+      "method": "btree",
+      "concurrently": false,
+      "entityType": "indexes"
+    },
+    {
+      "schema": "public",
+      "table": "journal_entries",
+      "name": "journal_entries_tx_type_status_idx",
+      "nameExplicit": true,
+      "columns": [
+        {
+          "value": "transaction_type",
+          "isExpression": false,
+          "asc": true,
+          "nullsFirst": false,
+          "opclass": null
+        },
+        {
+          "value": "status",
+          "isExpression": false,
+          "asc": true,
+          "nullsFirst": false,
+          "opclass": null
+        }
+      ],
+      "isUnique": false,
+      "where": null,
+      "with": "",
+      "method": "btree",
+      "concurrently": false,
+      "entityType": "indexes"
+    },
+    {
+      "schema": "public",
+      "table": "ledger_accounts",
+      "name": "ledger_accounts_type_idx",
+      "nameExplicit": true,
+      "columns": [
+        {
+          "value": "type",
+          "isExpression": false,
+          "asc": true,
+          "nullsFirst": false,
+          "opclass": null
+        }
+      ],
+      "isUnique": false,
+      "where": null,
+      "with": "",
+      "method": "btree",
+      "concurrently": false,
+      "entityType": "indexes"
+    },
+    {
+      "schema": "public",
+      "table": "ledger_postings",
+      "name": "ledger_postings_journal_entry_id_idx",
+      "nameExplicit": true,
+      "columns": [
+        {
+          "value": "journal_entry_id",
+          "isExpression": false,
+          "asc": true,
+          "nullsFirst": false,
+          "opclass": null
+        }
+      ],
+      "isUnique": false,
+      "where": null,
+      "with": "",
+      "method": "btree",
+      "concurrently": false,
+      "entityType": "indexes"
+    },
+    {
+      "schema": "public",
+      "table": "ledger_postings",
+      "name": "ledger_postings_account_created_at_idx",
+      "nameExplicit": true,
+      "columns": [
+        {
+          "value": "account_id",
+          "isExpression": false,
+          "asc": true,
+          "nullsFirst": false,
+          "opclass": null
+        },
+        {
+          "value": "created_at",
+          "isExpression": false,
+          "asc": true,
+          "nullsFirst": false,
+          "opclass": null
+        }
+      ],
+      "isUnique": false,
+      "where": null,
+      "with": "",
+      "method": "btree",
+      "concurrently": false,
+      "entityType": "indexes"
+    },
+    {
+      "schema": "public",
+      "table": "ledger_postings",
+      "name": "ledger_postings_direction_idx",
+      "nameExplicit": true,
+      "columns": [
+        {
+          "value": "direction",
+          "isExpression": false,
+          "asc": true,
+          "nullsFirst": false,
+          "opclass": null
+        }
+      ],
+      "isUnique": false,
+      "where": null,
+      "with": "",
+      "method": "btree",
+      "concurrently": false,
+      "entityType": "indexes"
+    },
+    {
+      "schema": "public",
+      "table": "wallets",
+      "name": "wallets_user_id_users_id_fkey",
+      "nameExplicit": false,
+      "columns": [
+        "user_id"
+      ],
+      "schemaTo": "public",
+      "tableTo": "users",
+      "columnsTo": [
+        "id"
+      ],
+      "onUpdate": "NO ACTION",
+      "onDelete": "CASCADE",
+      "entityType": "fks"
+    },
+    {
+      "schema": "public",
+      "table": "idempotency_keys",
+      "name": "idempotency_keys_user_id_users_id_fkey",
+      "nameExplicit": false,
+      "columns": [
+        "user_id"
+      ],
+      "schemaTo": "public",
+      "tableTo": "users",
+      "columnsTo": [
+        "id"
+      ],
+      "onUpdate": "NO ACTION",
+      "onDelete": "CASCADE",
+      "entityType": "fks"
+    },
+    {
+      "schema": "public",
+      "table": "ledger_postings",
+      "name": "ledger_postings_journal_entry_id_journal_entries_id_fkey",
+      "nameExplicit": false,
+      "columns": [
+        "journal_entry_id"
+      ],
+      "schemaTo": "public",
+      "tableTo": "journal_entries",
+      "columnsTo": [
+        "id"
+      ],
+      "onUpdate": "NO ACTION",
+      "onDelete": "RESTRICT",
+      "entityType": "fks"
+    },
+    {
+      "schema": "public",
+      "table": "ledger_postings",
+      "name": "ledger_postings_account_id_ledger_accounts_id_fkey",
+      "nameExplicit": false,
+      "columns": [
+        "account_id"
+      ],
+      "schemaTo": "public",
+      "tableTo": "ledger_accounts",
+      "columnsTo": [
+        "id"
+      ],
+      "onUpdate": "NO ACTION",
+      "onDelete": "RESTRICT",
+      "entityType": "fks"
+    },
+    {
+      "schema": "public",
+      "table": "users",
+      "name": "users_pkey",
+      "columns": [
+        "id"
+      ],
+      "nameExplicit": false,
+      "entityType": "pks"
+    },
+    {
+      "schema": "public",
+      "table": "wallets",
+      "name": "wallets_pkey",
+      "columns": [
+        "id"
+      ],
+      "nameExplicit": false,
+      "entityType": "pks"
+    },
+    {
+      "schema": "public",
+      "table": "idempotency_keys",
+      "name": "idempotency_keys_pkey",
+      "columns": [
+        "key"
+      ],
+      "nameExplicit": false,
+      "entityType": "pks"
+    },
+    {
+      "schema": "public",
+      "table": "journal_entries",
+      "name": "journal_entries_pkey",
+      "columns": [
+        "id"
+      ],
+      "nameExplicit": false,
+      "entityType": "pks"
+    },
+    {
+      "schema": "public",
+      "table": "ledger_accounts",
+      "name": "ledger_accounts_pkey",
+      "columns": [
+        "id"
+      ],
+      "nameExplicit": false,
+      "entityType": "pks"
+    },
+    {
+      "schema": "public",
+      "table": "ledger_postings",
+      "name": "ledger_postings_pkey",
+      "columns": [
+        "id"
+      ],
+      "nameExplicit": false,
+      "entityType": "pks"
+    },
+    {
+      "schema": "public",
+      "table": "users",
+      "name": "users_email_key",
+      "nameExplicit": false,
+      "columns": [
+        "email"
+      ],
+      "nullsNotDistinct": false,
+      "entityType": "uniques"
+    },
+    {
+      "schema": "public",
+      "table": "wallets",
+      "name": "wallets_ledger_account_id_key",
+      "nameExplicit": false,
+      "columns": [
+        "ledger_account_id"
+      ],
+      "nullsNotDistinct": false,
+      "entityType": "uniques"
+    },
+    {
+      "schema": "public",
+      "table": "journal_entries",
+      "name": "journal_entries_idempotency_key_key",
+      "nameExplicit": false,
+      "columns": [
+        "idempotency_key"
+      ],
+      "nullsNotDistinct": false,
+      "entityType": "uniques"
+    },
+    {
+      "schema": "public",
+      "table": "ledger_accounts",
+      "name": "ledger_accounts_code_key",
+      "nameExplicit": false,
+      "columns": [
+        "code"
+      ],
+      "nullsNotDistinct": false,
+      "entityType": "uniques"
+    }
+  ]
+}
