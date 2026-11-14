@@ -10,4 +10,9 @@ export const authRoutes = new Hono<AppEnv>();
 authRoutes.post("/register", validateJson(registerSchema), authController.register);
 authRoutes.post("/login", validateJson(loginSchema), authController.login);
 authRoutes.get("/me", authMiddleware, authController.getProfile);
-authRoutes.post("/pin/setup", authMiddleware, validateJson(setupPinSchema), authController.setupPin);
+authRoutes.post(
+  "/pin/setup",
+  authMiddleware,
+  validateJson(setupPinSchema),
+  authController.setupPin,
+);

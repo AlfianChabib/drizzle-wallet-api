@@ -1,5 +1,5 @@
 import { app } from "./app.ts";
-import { pool } from "./config/database.ts";
+import { closeAllDatabasePools } from "./config/database.ts";
 import { env } from "./config/env.ts";
 
 const server = Bun.serve({
@@ -17,10 +17,10 @@ const handleShutdown = async (signal: string) => {
   server.stop();
 
   try {
-    await pool.end();
-    console.log("🔒 Database connection pool closed.");
+    await closeAllDatabasePools();
+    console.log("🔒 All database connection pools (primary & replicas) closed.");
   } catch (err) {
-    console.error("Error closing database connection pool:", err);
+    console.error("Error closing database connection pools:", err);
   }
 
   console.log("👋 Process terminated cleanly.");
