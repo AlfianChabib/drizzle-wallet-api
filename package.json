@@ -1,0 +1,24 @@
+{
+  "name": "drizzle-wallet-api",
+  "module": "index.ts",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "typecheck": "bun check"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@types/pg": "^8.23.1",
+    "drizzle-kit": "^1.0.0-rc.5",
+    "tsx": "^4.23.15"
+  },
+  "peerDependencies": {
+    "typescript": "^7"
+  },
+  "dependencies": {
+    "dotenv": "^18.0.10",
+    "drizzle-orm": "^1.0.0-rc.5",
+    "hono": "^4.13.18",
+    "pg": "^8.23.1"
+  }
+}
