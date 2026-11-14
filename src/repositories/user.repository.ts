@@ -1,6 +1,6 @@
 import { eq, sql } from "drizzle-orm";
 import { db } from "../config/database.ts";
-import { users, type User, type NewUser } from "../db/schema/users.ts";
+import { type NewUser, type User, users } from "../db/schema/users.ts";
 
 export class UserRepository {
   async findByEmail(email: string): Promise<User | undefined> {

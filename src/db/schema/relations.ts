@@ -1,7 +1,7 @@
 import { defineRelations } from "drizzle-orm";
+import { idempotencyKeys, journalEntries, ledgerAccounts, ledgerPostings } from "./ledger.ts";
 import { users } from "./users.ts";
 import { wallets } from "./wallets.ts";
-import { ledgerAccounts, journalEntries, ledgerPostings, idempotencyKeys } from "./ledger.ts";
 
 export const schema = {
   users,

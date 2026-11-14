@@ -1,9 +1,9 @@
 import { Hono } from "hono";
 import { authController } from "../controllers/auth.controller.ts";
 import { authMiddleware } from "../middlewares/auth.middleware.ts";
-import { validateJson } from "../validators/index.ts";
-import { registerSchema, loginSchema, setupPinSchema } from "../validators/auth.validator.ts";
 import type { AppEnv } from "../types/index.ts";
+import { loginSchema, registerSchema, setupPinSchema } from "../validators/auth.validator.ts";
+import { validateJson } from "../validators/index.ts";
 
 export const authRoutes = new Hono<AppEnv>();
 

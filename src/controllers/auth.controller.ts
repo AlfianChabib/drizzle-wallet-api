@@ -1,8 +1,8 @@
 import type { Context } from "hono";
-import { authService, type AuthService } from "../services/auth.service.ts";
-import { sendSuccess } from "../utils/response.ts";
-import type { RegisterInput, LoginInput, SetupPinInput } from "../validators/auth.validator.ts";
+import { type AuthService, authService } from "../services/auth.service.ts";
 import type { AppEnv, AuthSuccessData, UserProfileData } from "../types/index.ts";
+import { sendSuccess } from "../utils/response.ts";
+import type { LoginInput, RegisterInput, SetupPinInput } from "../validators/auth.validator.ts";
 
 export class AuthController {
   constructor(private readonly service: AuthService = authService) {}

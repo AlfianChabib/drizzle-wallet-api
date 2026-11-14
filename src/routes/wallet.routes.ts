@@ -1,9 +1,9 @@
 import { Hono } from "hono";
 import { walletController } from "../controllers/wallet.controller.ts";
 import { authMiddleware } from "../middlewares/auth.middleware.ts";
+import type { AppEnv } from "../types/index.ts";
 import { validateJson } from "../validators/index.ts";
 import { topupSchema, transferSchema } from "../validators/wallet.validator.ts";
-import type { AppEnv } from "../types/index.ts";
 
 export const walletRoutes = new Hono<AppEnv>();
 

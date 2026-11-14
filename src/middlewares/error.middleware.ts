@@ -1,8 +1,8 @@
 import type { ErrorHandler } from "hono";
-import { z, ZodError } from "zod";
+import { ZodError, z } from "zod";
+import { env } from "../config/env.ts";
 import { AppError } from "../utils/errors.ts";
 import { sendError } from "../utils/response.ts";
-import { env } from "../config/env.ts";
 
 export const errorHandler: ErrorHandler = (err, c) => {
   // Handle Custom Application Errors
@@ -24,7 +24,9 @@ export const errorHandler: ErrorHandler = (err, c) => {
   console.error("🔥 Unhandled Server Error:", err);
 
   const message =
-    env.NODE_ENV === "production" ? "Internal Server Error" : err.message || "Internal Server Error";
+    env.NODE_ENV === "production"
+      ? "Internal Server Error"
+      : err.message || "Internal Server Error";
 
   return sendError(c, message, 500, "INTERNAL_SERVER_ERROR");
 };

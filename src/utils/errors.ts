@@ -9,7 +9,7 @@ export class AppError extends Error {
     message: string,
     statusCode: HttpStatusCode = 500,
     code: string = "INTERNAL_ERROR",
-    details?: unknown
+    details?: unknown,
   ) {
     super(message);
     this.name = this.constructor.name;

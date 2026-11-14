@@ -1,17 +1,17 @@
-import { walletRepository, type WalletRepository } from "../repositories/wallet.repository.ts";
-import { userRepository, type UserRepository } from "../repositories/user.repository.ts";
-import { NotFoundError, BadRequestError, ForbiddenError } from "../utils/errors.ts";
-import { verifyPin } from "../utils/password.ts";
-import type { TopupInput, TransferInput } from "../validators/wallet.validator.ts";
-import type { WalletDetails, TopupResult, TransferResult } from "../types/index.ts";
+import { eq } from "drizzle-orm";
 import { db } from "../config/database.ts";
 import { wallets } from "../db/schema/wallets.ts";
-import { eq } from "drizzle-orm";
+import { type UserRepository, userRepository } from "../repositories/user.repository.ts";
+import { type WalletRepository, walletRepository } from "../repositories/wallet.repository.ts";
+import type { TopupResult, TransferResult, WalletDetails } from "../types/index.ts";
+import { BadRequestError, ForbiddenError, NotFoundError } from "../utils/errors.ts";
+import { verifyPin } from "../utils/password.ts";
+import type { TopupInput, TransferInput } from "../validators/wallet.validator.ts";
 
 export class WalletService {
   constructor(
     private readonly walletRepo: WalletRepository = walletRepository,
-    private readonly userRepo: UserRepository = userRepository
+    private readonly userRepo: UserRepository = userRepository,
   ) {}
 
   async getWalletByUserId(userId: string): Promise<WalletDetails> {
@@ -63,13 +63,17 @@ export class WalletService {
     };
   }
 
-  async transfer(senderUserId: string, input: TransferInput, pin?: string): Promise<TransferResult> {
+  async transfer(
+    senderUserId: string,
+    input: TransferInput,
+    pin?: string,
+  ): Promise<TransferResult> {
     if (!pin) {
       throw new BadRequestError("Missing X-Transaction-PIN header");
     }
 
     const sender = await this.userRepo.findById(senderUserId);
-    if (!sender || !sender.pinHash) {
+    if (!sender?.pinHash) {
       throw new BadRequestError("Please setup transaction PIN first");
     }
 

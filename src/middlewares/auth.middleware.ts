@@ -1,13 +1,13 @@
 import { createMiddleware } from "hono/factory";
 import { verify } from "hono/jwt";
 import { env } from "../config/env.ts";
-import { UnauthorizedError } from "../utils/errors.ts";
 import type { AppEnv, AuthUser, UserRole } from "../types/index.ts";
+import { UnauthorizedError } from "../utils/errors.ts";
 
 export const authMiddleware = createMiddleware<AppEnv>(async (c, next) => {
   const authHeader = c.req.header("Authorization");
 
-  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+  if (!authHeader?.startsWith("Bearer ")) {
     throw new UnauthorizedError("Missing or invalid Authorization header");
   }
 

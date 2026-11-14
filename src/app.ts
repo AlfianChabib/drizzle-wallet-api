@@ -1,12 +1,12 @@
 import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { secureHeaders } from "hono/secure-headers";
-import { loggerMiddleware } from "./middlewares/logger.middleware.ts";
 import { errorHandler } from "./middlewares/error.middleware.ts";
+import { loggerMiddleware } from "./middlewares/logger.middleware.ts";
 import { notFoundHandler } from "./middlewares/not-found.middleware.ts";
 import { apiRouter } from "./routes/index.ts";
-import { sendSuccess } from "./utils/response.ts";
 import type { AppEnv } from "./types/index.ts";
+import { sendSuccess } from "./utils/response.ts";
 
 const app = new Hono<AppEnv>();
 
@@ -28,7 +28,7 @@ app.get("/health", (c) => {
       timestamp: new Date().toISOString(),
       uptime: process.uptime(),
     },
-    "Service is healthy"
+    "Service is healthy",
   );
 });
 

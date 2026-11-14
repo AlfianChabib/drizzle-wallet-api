@@ -1,8 +1,8 @@
 import type { Context } from "hono";
-import { walletService, type WalletService } from "../services/wallet.service.ts";
+import { type WalletService, walletService } from "../services/wallet.service.ts";
+import type { AppEnv, TopupResult, TransferResult, WalletDetails } from "../types/index.ts";
 import { sendSuccess } from "../utils/response.ts";
 import type { TopupInput, TransferInput } from "../validators/wallet.validator.ts";
-import type { AppEnv, WalletDetails, TopupResult, TransferResult } from "../types/index.ts";
 
 export class WalletController {
   constructor(private readonly service: WalletService = walletService) {}

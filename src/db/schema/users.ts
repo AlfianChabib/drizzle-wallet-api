@@ -1,4 +1,4 @@
-import { pgTable, uuid, varchar, text, integer, timestamp, index } from "drizzle-orm/pg-core";
+import { index, integer, pgTable, text, timestamp, uuid, varchar } from "drizzle-orm/pg-core";
 import type { UserRole } from "../../types/index.ts";
 
 export const users = pgTable(
@@ -17,7 +17,7 @@ export const users = pgTable(
   (table) => [
     index("users_role_idx").on(table.role),
     index("users_created_at_idx").on(table.createdAt),
-  ]
+  ],
 );
 
 export type User = typeof users.$inferSelect;

@@ -5,7 +5,7 @@ export const sendSuccess = <T>(
   c: Context,
   data?: T,
   message?: string,
-  statusCode: HttpStatusCode = 200
+  statusCode: HttpStatusCode = 200,
 ) => {
   const payload: ApiResponse<T> = {
     success: true,
@@ -20,7 +20,7 @@ export const sendError = (
   message: string,
   statusCode: HttpStatusCode = 500,
   code: string = "INTERNAL_SERVER_ERROR",
-  details?: unknown
+  details?: unknown,
 ) => {
   const payload: ApiResponse = {
     success: false,

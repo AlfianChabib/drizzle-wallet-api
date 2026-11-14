@@ -1,6 +1,6 @@
 import { app } from "./app.ts";
-import { env } from "./config/env.ts";
 import { pool } from "./config/database.ts";
+import { env } from "./config/env.ts";
 
 const server = Bun.serve({
   port: env.PORT,

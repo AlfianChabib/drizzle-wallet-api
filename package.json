@@ -6,16 +6,23 @@
   "scripts": {
     "dev": "bun --watch src/server.ts",
     "start": "bun src/server.ts",
-    "typecheck": "bun check",
+    "typecheck": "tsc --noEmit",
+    "lint": "biome lint .",
+    "lint:fix": "biome lint --write .",
+    "format": "biome format --write .",
+    "check": "biome check .",
+    "check:fix": "biome check --write .",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
     "db:studio": "drizzle-kit studio"
   },
   "devDependencies": {
+    "@biomejs/biome": "^2.6.7",
     "@types/bun": "latest",
     "@types/pg": "^8.23.1",
     "drizzle-kit": "^1.0.0-rc.5",
-    "tsx": "^4.23.15"
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2"
   },
   "peerDependencies": {
     "typescript": "^7"

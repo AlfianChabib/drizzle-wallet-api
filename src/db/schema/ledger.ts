@@ -1,12 +1,22 @@
-import { pgTable, uuid, varchar, text, integer, bigint, jsonb, timestamp, index } from "drizzle-orm/pg-core";
-import { users } from "./users.ts";
+import {
+  bigint,
+  index,
+  integer,
+  jsonb,
+  pgTable,
+  text,
+  timestamp,
+  uuid,
+  varchar,
+} from "drizzle-orm/pg-core";
 import type {
-  LedgerAccountType,
-  JournalTransactionType,
-  JournalEntryStatus,
-  LedgerPostingDirection,
   IdempotencyKeyStatus,
+  JournalEntryStatus,
+  JournalTransactionType,
+  LedgerAccountType,
+  LedgerPostingDirection,
 } from "../../types/index.ts";
+import { users } from "./users.ts";
 
 export const ledgerAccounts = pgTable(
   "ledger_accounts",
@@ -17,7 +27,7 @@ export const ledgerAccounts = pgTable(
     name: varchar("name", { length: 255 }).notNull(),
     createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
   },
-  (table) => [index("ledger_accounts_type_idx").on(table.type)]
+  (table) => [index("ledger_accounts_type_idx").on(table.type)],
 );
 
 export const journalEntries = pgTable(
@@ -25,15 +35,20 @@ export const journalEntries = pgTable(
   {
     id: uuid("id").defaultRandom().primaryKey(),
     idempotencyKey: varchar("idempotency_key", { length: 255 }).unique(),
-    transactionType: varchar("transaction_type", { length: 50 }).$type<JournalTransactionType>().notNull(),
-    status: varchar("status", { length: 20 }).$type<JournalEntryStatus>().default("posted").notNull(),
+    transactionType: varchar("transaction_type", { length: 50 })
+      .$type<JournalTransactionType>()
+      .notNull(),
+    status: varchar("status", { length: 20 })
+      .$type<JournalEntryStatus>()
+      .default("posted")
+      .notNull(),
     description: text("description"),
     postedAt: timestamp("posted_at", { withTimezone: true }).defaultNow().notNull(),
   },
   (table) => [
     index("journal_entries_posted_at_idx").on(table.postedAt),
     index("journal_entries_tx_type_status_idx").on(table.transactionType, table.status),
-  ]
+  ],
 );
 
 export const ledgerPostings = pgTable(
@@ -54,7 +69,7 @@ export const ledgerPostings = pgTable(
     index("ledger_postings_journal_entry_id_idx").on(table.journalEntryId),
     index("ledger_postings_account_created_at_idx").on(table.accountId, table.createdAt),
     index("ledger_postings_direction_idx").on(table.direction),
-  ]
+  ],
 );
 
 export const idempotencyKeys = pgTable(
@@ -76,7 +91,7 @@ export const idempotencyKeys = pgTable(
     index("idempotency_keys_user_id_idx").on(table.userId),
     index("idempotency_keys_expires_at_idx").on(table.expiresAt),
     index("idempotency_keys_status_idx").on(table.status),
-  ]
+  ],
 );
 
 export type LedgerAccount = typeof ledgerAccounts.$inferSelect;

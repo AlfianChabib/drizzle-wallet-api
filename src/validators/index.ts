@@ -1,5 +1,5 @@
-import { z, type ZodSchema } from "zod";
 import { zValidator } from "@hono/zod-validator";
+import { type ZodSchema, z } from "zod";
 import { sendError } from "../utils/response.ts";
 
 export * from "./auth.validator.ts";

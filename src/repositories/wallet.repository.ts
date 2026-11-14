@@ -1,7 +1,7 @@
 import { eq } from "drizzle-orm";
 import { db } from "../config/database.ts";
-import { wallets, type Wallet } from "../db/schema/wallets.ts";
-import { ledgerAccounts, type LedgerAccount } from "../db/schema/ledger.ts";
+import { type LedgerAccount, ledgerAccounts } from "../db/schema/ledger.ts";
+import { type Wallet, wallets } from "../db/schema/wallets.ts";
 
 export class WalletRepository {
   async findByUserId(userId: string): Promise<Wallet | undefined> {
@@ -23,7 +23,11 @@ export class WalletRepository {
     return account;
   }
 
-  async createWalletForUser(userId: string, accountCode: string, accountName: string): Promise<Wallet> {
+  async createWalletForUser(
+    userId: string,
+    accountCode: string,
+    accountName: string,
+  ): Promise<Wallet> {
     return await db.transaction(async (tx) => {
       // 1. Create corresponding liability ledger account
       const [account] = await tx

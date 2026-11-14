@@ -1,16 +1,16 @@
 import { sign } from "hono/jwt";
-import { userRepository, type UserRepository } from "../repositories/user.repository.ts";
-import { walletRepository, type WalletRepository } from "../repositories/wallet.repository.ts";
-import { hashPassword, verifyPassword, hashPin } from "../utils/password.ts";
-import { ConflictError, UnauthorizedError, NotFoundError } from "../utils/errors.ts";
 import { env } from "../config/env.ts";
-import type { RegisterInput, LoginInput, SetupPinInput } from "../validators/auth.validator.ts";
+import { type UserRepository, userRepository } from "../repositories/user.repository.ts";
+import { type WalletRepository, walletRepository } from "../repositories/wallet.repository.ts";
 import type { AuthSuccessData, UserProfileData, UserRole } from "../types/index.ts";
+import { ConflictError, NotFoundError, UnauthorizedError } from "../utils/errors.ts";
+import { hashPassword, hashPin, verifyPassword } from "../utils/password.ts";
+import type { LoginInput, RegisterInput, SetupPinInput } from "../validators/auth.validator.ts";
 
 export class AuthService {
   constructor(
     private readonly userRepo: UserRepository = userRepository,
-    private readonly walletRepo: WalletRepository = walletRepository
+    private readonly walletRepo: WalletRepository = walletRepository,
   ) {}
 
   async register(input: RegisterInput): Promise<AuthSuccessData> {
@@ -89,7 +89,10 @@ export class AuthService {
     };
   }
 
-  async setupPin(userId: string, input: SetupPinInput): Promise<{ success: boolean; message: string }> {
+  async setupPin(
+    userId: string,
+    input: SetupPinInput,
+  ): Promise<{ success: boolean; message: string }> {
     const user = await this.userRepo.findById(userId);
     if (!user) {
       throw new NotFoundError("User not found");
@@ -112,7 +115,7 @@ export class AuthService {
         exp: now + env.JWT_EXPIRES_IN,
       },
       env.JWT_SECRET,
-      "HS256"
+      "HS256",
     );
   }
 }

@@ -1,7 +1,7 @@
-import { pgTable, uuid, varchar, bigint, timestamp, index } from "drizzle-orm/pg-core";
 import { sql } from "drizzle-orm";
-import { users } from "./users.ts";
+import { bigint, index, pgTable, timestamp, uuid, varchar } from "drizzle-orm/pg-core";
 import type { WalletStatus } from "../../types/index.ts";
+import { users } from "./users.ts";
 
 export const wallets = pgTable(
   "wallets",
@@ -12,9 +12,7 @@ export const wallets = pgTable(
       .references(() => users.id, { onDelete: "cascade" }),
     ledgerAccountId: uuid("ledger_account_id").notNull().unique(),
     currency: varchar("currency", { length: 10 }).default("IDR").notNull(),
-    cachedBalance: bigint("cached_balance", { mode: "bigint" })
-      .default(sql`0`)
-      .notNull(),
+    cachedBalance: bigint("cached_balance", { mode: "bigint" }).default(sql`0`).notNull(),
     dailyTransferLimit: bigint("daily_transfer_limit", { mode: "bigint" })
       .default(sql`25000000`)
       .notNull(),
@@ -29,7 +27,7 @@ export const wallets = pgTable(
     index("wallets_user_id_idx").on(table.userId),
     index("wallets_status_idx").on(table.status),
     index("wallets_user_status_idx").on(table.userId, table.status),
-  ]
+  ],
 );
 
 export type Wallet = typeof wallets.$inferSelect;
