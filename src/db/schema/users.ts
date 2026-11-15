@@ -4,7 +4,9 @@ import type { UserRole } from "../../types/index.ts";
 export const users = pgTable(
   "users",
   {
-    id: uuid("id").defaultRandom().primaryKey(),
+    id: uuid("id")
+      .primaryKey()
+      .$defaultFn(() => Bun.randomUUIDv7()),
     email: varchar("email", { length: 255 }).notNull().unique(),
     passwordHash: text("password_hash").notNull(),
     pinHash: text("pin_hash"),

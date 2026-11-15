@@ -9,7 +9,7 @@ export const topupSchema = z.strictObject({
 });
 
 export const transferSchema = z.strictObject({
-  recipientWalletId: z.uuid("Invalid recipient wallet ID format"),
+  recipientWalletId: z.uuidv7("Invalid recipient wallet ID format"),
   amount: z
     .int({ error: "Amount must be an integer" })
     .positive("Amount must be greater than zero")

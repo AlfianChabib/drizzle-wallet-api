@@ -21,7 +21,9 @@ import { users } from "./users.ts";
 export const ledgerAccounts = pgTable(
   "ledger_accounts",
   {
-    id: uuid("id").defaultRandom().primaryKey(),
+    id: uuid("id")
+      .primaryKey()
+      .$defaultFn(() => Bun.randomUUIDv7()),
     code: varchar("code", { length: 100 }).notNull().unique(),
     type: varchar("type", { length: 20 }).$type<LedgerAccountType>().notNull(),
     name: varchar("name", { length: 255 }).notNull(),
@@ -33,7 +35,9 @@ export const ledgerAccounts = pgTable(
 export const journalEntries = pgTable(
   "journal_entries",
   {
-    id: uuid("id").defaultRandom().primaryKey(),
+    id: uuid("id")
+      .primaryKey()
+      .$defaultFn(() => Bun.randomUUIDv7()),
     idempotencyKey: varchar("idempotency_key", { length: 255 }).unique(),
     transactionType: varchar("transaction_type", { length: 50 })
       .$type<JournalTransactionType>()
@@ -54,7 +58,9 @@ export const journalEntries = pgTable(
 export const ledgerPostings = pgTable(
   "ledger_postings",
   {
-    id: uuid("id").defaultRandom().primaryKey(),
+    id: uuid("id")
+      .primaryKey()
+      .$defaultFn(() => Bun.randomUUIDv7()),
     journalEntryId: uuid("journal_entry_id")
       .notNull()
       .references(() => journalEntries.id, { onDelete: "restrict" }),

@@ -6,7 +6,9 @@ import { users } from "./users.ts";
 export const wallets = pgTable(
   "wallets",
   {
-    id: uuid("id").defaultRandom().primaryKey(),
+    id: uuid("id")
+      .primaryKey()
+      .$defaultFn(() => Bun.randomUUIDv7()),
     userId: uuid("user_id")
       .notNull()
       .references(() => users.id, { onDelete: "cascade" }),
