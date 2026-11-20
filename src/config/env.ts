@@ -8,6 +8,7 @@ const envSchema = z.object({
   DATABASE_READ_URL_2: z.string().optional(),
   JWT_SECRET: z.string().min(16, { error: "JWT_SECRET should be at least 16 characters long" }),
   JWT_EXPIRES_IN: z.coerce.number().int().default(3600),
+  TRANSFER_FEE: z.coerce.number().default(1000),
 });
 
 const parseEnv = () => {
