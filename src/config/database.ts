@@ -45,3 +45,7 @@ export async function closeAllDatabasePools() {
 }
 
 export const db = withReplicas(primaryDB, [replicaDB1, replicaDB2]);
+
+export type DatabaseInstance = typeof db;
+export type DbTransaction = Parameters<Parameters<typeof db.transaction>[0]>[0];
+export type DbClient = DatabaseInstance | DbTransaction;

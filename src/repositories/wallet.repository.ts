@@ -1,26 +1,32 @@
 import { eq } from "drizzle-orm";
-import { db } from "../config/database.ts";
+import { type DbClient, db } from "../config/database.ts";
 import { type LedgerAccount, ledgerAccounts } from "../db/schema/ledger.ts";
-import { type Wallet, wallets } from "../db/schema/wallets.ts";
+import { type NewWallet, type Wallet, wallets } from "../db/schema/wallets.ts";
 
 export class WalletRepository {
-  async findByUserId(userId: string): Promise<Wallet | undefined> {
-    const [wallet] = await db.select().from(wallets).where(eq(wallets.userId, userId)).limit(1);
+  async findByUserId(userId: string, client: DbClient = db): Promise<Wallet | undefined> {
+    const [wallet] = await client.select().from(wallets).where(eq(wallets.userId, userId)).limit(1);
     return wallet;
   }
 
-  async findById(id: string): Promise<Wallet | undefined> {
-    const [wallet] = await db.select().from(wallets).where(eq(wallets.id, id)).limit(1);
+  async findById(id: string, client: DbClient = db): Promise<Wallet | undefined> {
+    const [wallet] = await client.select().from(wallets).where(eq(wallets.id, id)).limit(1);
     return wallet;
   }
 
-  async findAccountByCode(code: string): Promise<LedgerAccount | undefined> {
-    const [account] = await db
+  async findAccountByCode(code: string, client: DbClient = db): Promise<LedgerAccount | undefined> {
+    const [account] = await client
       .select()
       .from(ledgerAccounts)
       .where(eq(ledgerAccounts.code, code))
       .limit(1);
     return account;
+  }
+
+  async create(data: NewWallet, client: DbClient = db): Promise<Wallet> {
+    const [wallet] = await client.insert(wallets).values(data).returning();
+    if (!wallet) throw new Error("Failed to create wallet");
+    return wallet;
   }
 
   async createWalletForUser(
@@ -58,8 +64,8 @@ export class WalletRepository {
     });
   }
 
-  async freezeWallet(walletId: string): Promise<void> {
-    await db
+  async freezeWallet(walletId: string, client: DbClient = db): Promise<void> {
+    await client
       .update(wallets)
       .set({
         status: "frozen",

@@ -1,26 +1,26 @@
 import { eq, sql } from "drizzle-orm";
-import { db } from "../config/database.ts";
+import { type DbClient, db } from "../config/database.ts";
 import { type NewUser, type User, users } from "../db/schema/users.ts";
 
 export class UserRepository {
-  async findByEmail(email: string): Promise<User | undefined> {
-    const [user] = await db.select().from(users).where(eq(users.email, email)).limit(1);
+  async findByEmail(email: string, client: DbClient = db): Promise<User | undefined> {
+    const [user] = await client.select().from(users).where(eq(users.email, email)).limit(1);
     return user;
   }
 
-  async findById(id: string): Promise<User | undefined> {
-    const [user] = await db.select().from(users).where(eq(users.id, id)).limit(1);
+  async findById(id: string, client: DbClient = db): Promise<User | undefined> {
+    const [user] = await client.select().from(users).where(eq(users.id, id)).limit(1);
     return user;
   }
 
-  async create(data: NewUser): Promise<User> {
-    const [user] = await db.insert(users).values(data).returning();
+  async create(data: NewUser, client: DbClient = db): Promise<User> {
+    const [user] = await client.insert(users).values(data).returning();
     if (!user) throw new Error("Failed to create user record");
     return user;
   }
 
-  async updatePin(id: string, pinHash: string): Promise<void> {
-    await db
+  async updatePin(id: string, pinHash: string, client: DbClient = db): Promise<void> {
+    await client
       .update(users)
       .set({
         pinHash,
@@ -30,8 +30,8 @@ export class UserRepository {
       .where(eq(users.id, id));
   }
 
-  async incrementFailedPin(id: string): Promise<number> {
-    const [updated] = await db
+  async incrementFailedPin(id: string, client: DbClient = db): Promise<number> {
+    const [updated] = await client
       .update(users)
       .set({
         failedPinAttempts: sql`${users.failedPinAttempts} + 1`,
@@ -43,8 +43,8 @@ export class UserRepository {
     return updated?.failedPinAttempts ?? 0;
   }
 
-  async resetFailedPin(id: string): Promise<void> {
-    await db
+  async resetFailedPin(id: string, client: DbClient = db): Promise<void> {
+    await client
       .update(users)
       .set({
         failedPinAttempts: 0,

@@ -101,6 +101,10 @@ export const idempotencyKeys = pgTable(
 );
 
 export type LedgerAccount = typeof ledgerAccounts.$inferSelect;
+export type NewLedgerAccount = typeof ledgerAccounts.$inferInsert;
 export type JournalEntry = typeof journalEntries.$inferSelect;
+export type NewJournalEntry = typeof journalEntries.$inferInsert;
 export type LedgerPosting = typeof ledgerPostings.$inferSelect;
+export type NewLedgerPosting = typeof ledgerPostings.$inferInsert;
 export type IdempotencyKey = typeof idempotencyKeys.$inferSelect;
+export type NewIdempotencyKey = typeof idempotencyKeys.$inferInsert;

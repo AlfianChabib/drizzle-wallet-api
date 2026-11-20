@@ -12,3 +12,9 @@ export const SYSTEM_ACCOUNTS = {
 } as const;
 
 export const DEFAULT_TRANSFER_FEE = 1000n;
+
+export const USER_ACCOUNT_CODE_PREFIX = "ACC_USER_";
+
+export const formatUserLedgerAccountCode = (userId: string): string => {
+  return `${USER_ACCOUNT_CODE_PREFIX}${userId.replace(/-/g, "")}`;
+};
